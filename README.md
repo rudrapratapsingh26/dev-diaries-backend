@@ -145,6 +145,10 @@ Content-Type: application/json
   "status": "published"
 }
 ```
+---
+
+## License
+This project is licensed under the MIT License.
 
 ---
 
