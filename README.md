@@ -1,6 +1,6 @@
 # Dev Diaries — Backend API
 
-A RESTful blog API built with Node.js, Express, and MongoDB. Features JWT authentication with access and refresh tokens, full CRUD for blog posts, slug-based routing, and MVC architecture.
+A RESTful blog API built with Node.js, Express, and MongoDB. Features JWT authentication with access and refresh tokens, full CRUD for blog posts, slug-based routing, Cloudinary image uploads, and MVC architecture.
 
 ---
 
@@ -10,6 +10,8 @@ A RESTful blog API built with Node.js, Express, and MongoDB. Features JWT authen
 - MongoDB + Mongoose
 - JWT (Access + Refresh Tokens)
 - bcrypt password hashing
+- Cloudinary image uploads
+- Multer for file handling
 - cookie-parser
 - slugify
 
@@ -21,7 +23,8 @@ A RESTful blog API built with Node.js, Express, and MongoDB. Features JWT authen
 src/
 ├── controllers/
 │   ├── auth.controller.js
-│   └── post.controller.js
+│   ├── post.controller.js
+│   └── upload.controller.js
 ├── database/
 │   └── database.js
 ├── middleware/
@@ -31,11 +34,13 @@ src/
 │   └── post.model.js
 ├── routes/
 │   ├── auth.routes.js
-│   └── post.routes.js
+│   ├── post.routes.js
+│   └── upload.routes.js
 └── utils/
     ├── api-errors.js
     ├── api-response.js
-    └── async-handler.js
+    ├── async-handler.js
+    └── cloudinary.js
 app.js
 index.js
 ```
@@ -64,6 +69,12 @@ index.js
 | PUT | /api/posts/:id | Protected | Update post |
 | DELETE | /api/posts/:id | Protected | Delete post |
 
+### Upload Routes
+
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | /api/upload | Protected | Upload image to Cloudinary |
+
 ---
 
 ## Environment Variables
@@ -78,6 +89,9 @@ REFRESH_TOKEN_SECRET=your_refresh_secret
 ACCESS_TOKEN_EXPIRY=15m
 REFRESH_TOKEN_EXPIRY=7d
 CORS_ORIGIN=http://localhost:5173
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ---
@@ -111,44 +125,21 @@ npm start
 - Auto slug generation from post title using slugify
 - Data isolation — users can only edit or delete their own posts
 - Draft and published post status support
+- Cloudinary image upload with multer memory storage
 - MVC folder structure for clean separation of concerns
 - Centralized error handling with ApiError class
 - Consistent API responses with ApiResponse class
 - asyncHandler wrapper to avoid try-catch repetition
 - ES Modules (import/export) throughout
+- Auto redirect on expired JWT tokens
 
 ---
 
-## Sample Request — Register
+## Live Demo
 
-```
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "username": "rudra",
-  "email": "rudra@gmail.com",
-  "password": "123456"
-}
-```
-
-## Sample Request — Create Post
-
-```
-POST /api/posts
-Authorization: Bearer <your_access_token>
-Content-Type: application/json
-
-{
-  "title": "My First Blog Post",
-  "content": "This is the content of my first blog post.",
-  "status": "published"
-}
-```
----
-
-## License
-This project is licensed under the MIT License.
+- **Frontend:** [dev-diaries-frontend-dun.vercel.app](https://dev-diaries-frontend-dun.vercel.app)
+- **Backend:** [dev-diaries-backend-production.up.railway.app](https://dev-diaries-backend-production.up.railway.app)
+- **Frontend Repo:** [github.com/rudrapratapsingh26/dev-diaries-frontend](https://github.com/rudrapratapsingh26/dev-diaries-frontend)
 
 ---
 
